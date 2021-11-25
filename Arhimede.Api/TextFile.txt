@@ -1,0 +1,50 @@
+﻿REQUEST HEADERS:
+Accept                      application/json
+Content-Type                multipart/mixed;boundary=batch_a8ba333b-34b7-4699-bdfa-af8d46dbbcbf
+
+
+REQUEST BODY:
+
+--batch_a8ba333b-34b7-4699-bdfa-af8d46dbbcbf
+Content-Type: application/http
+Content-Transfer-Encoding: binary
+
+POST http://localhost:5001/odata/People(2)/VinylRecords HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Title":"Communion",
+    "Artist": "Years and Years",
+    "CatalogNumber": "IOP/757",
+    "Year": 2015,
+    "PressingDetailId": 1
+}
+
+--batch_a8ba333b-34b7-4699-bdfa-af8d46dbbcbf
+Content-Type: application/http
+Content-Transfer-Encoding: binary
+
+PATCH http://localhost:5001/odata/People(1)/VinylRecords(1) HTTP/1.1
+Content-Type: application/json
+Accept: application/json
+
+{
+    "Title": "Nevermind Updated"
+}
+
+--batch_a8ba333b-34b7-4699-bdfa-af8d46dbbcbf
+Content-Type: application/http
+Content-Transfer-Encoding:binary
+
+GET http://localhost:5001/odata/People(1)/VinylRecords HTTP/1.1
+Accept: application/json
+
+--batch_a8ba333b-34b7-4699-bdfa-af8d46dbbcbf
+Content-Type: application/http
+Content-Transfer-Encoding:binary
+
+GET http://localhost:5001/odata/People(2)/VinylRecords HTTP/1.1
+Accept: application/json
+
+--batch_a8ba333b-34b7-4699-bdfa-af8d46dbbcbf--

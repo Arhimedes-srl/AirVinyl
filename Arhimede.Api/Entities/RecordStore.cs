@@ -19,7 +19,7 @@ namespace AirVinyl.Entities
 
         public Address StoreAddress { get; set; } 
 
-        public List<string> Tags { get; set; } = new List<string>();
+        //public List<string> Tags { get; set; } = new List<string>();
 
         public ICollection<Rating> Ratings { get; set; } = new List<Rating>();         
     }

@@ -3,6 +3,7 @@ using AirVinyl.EntityDataModels;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.OData;
+using Microsoft.AspNetCore.OData.Batch;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -24,6 +25,9 @@ namespace AirVinyl
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var batchHandler = new DefaultODataBatchHandler();
+            batchHandler.MessageQuotas.MaxNestingDepth = 3;
+            batchHandler.MessageQuotas.MaxOperationsPerChangeset = 10;
 
             services.AddDbContext<AirVinylDbContext>(options =>
           options.UseSqlServer(
@@ -31,7 +35,9 @@ namespace AirVinyl
           .EnableSensitiveDataLogging());
 
             services.AddControllers().AddOData(options =>
-             options.AddRouteComponents("odata", new AirVinylEntityDataModel().GetEntityDataModel())
+             options.AddRouteComponents("odata"
+             , new AirVinylEntityDataModel().GetEntityDataModel()
+             ,batchHandler)
                     .Select()
                     .Expand()
                     .OrderBy()
@@ -53,6 +59,7 @@ namespace AirVinyl
 
             app.UseHttpsRedirection();
 
+            app.UseODataBatching();
             app.UseODataRouteDebug();
             app.UseRouting();
 
